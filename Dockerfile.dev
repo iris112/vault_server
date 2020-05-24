@@ -1,0 +1,14 @@
+FROM node:10.15
+
+ARG NPM_TOKEN
+WORKDIR app
+COPY ./package.json package-lock.json ./
+ENV NPM_TOKEN="${NPM_TOKEN}"
+RUN npm install -g nodemon
+RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc && \
+    npm install && \
+    rm -rf .npmrc
+COPY . .
+EXPOSE 80
+
+CMD nodemon -L index.js

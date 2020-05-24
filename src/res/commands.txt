@@ -1,0 +1,169 @@
+============= ETH ==============
+const receipt = await client.sendEthereum(
+  '0xc6eB2f2f20e08BE95FFBbf0fACfCd5225b738E11',                         // from
+  '0x282197277d78fbcfdb19935bc5021666e4436c491b87f6529729ff81033e6fcc', // pv key
+  '0x2b3f2AFD025006A05222812286e4c7EF0f6EA4C7',                         // to
+  '0.0015'                                                              // amount
+)
+info('> receipt ether: %o', receipt)
+
+const receipt = await client.deploySmartContract(
+  '0xc6eB2f2f20e08BE95FFBbf0fACfCd5225b738E11',                         // from
+  '0x282197277d78fbcfdb19935bc5021666e4436c491b87f6529729ff81033e6fcc', // pv key
+  1000000,                                                              // initialSupply
+  'OurCustomTokenName',                                                 // token name
+  'OCTN'                                                                // token symbol
+)
+info('> receipt deploy smart contract: %o', receipt)
+
+await eth.compile(ctx, 'src/res/TokenERC20.sol')
+
+const receipt = await client.sendTokens(
+  '0xc6eB2f2f20e08BE95FFBbf0fACfCd5225b738E11',                         // from
+  '0x282197277d78fbcfdb19935bc5021666e4436c491b87f6529729ff81033e6fcc', // pv key
+  '0x16941a0b4EbaA1F80ac30f552bA6683858adCd7e',                         // contract Address
+  '0x2b3f2AFD025006A05222812286e4c7EF0f6EA4C7',                         // to
+  '0.0015'                                                               // amount
+)
+log('> receipt tokens: %o', receipt)
+
+============= ETC ==============
+let addrFrom = '0x0C7C81175C79fEa43dE333b99b6Ccd9Ebb5730e2'
+let addrTo   = '0x237f3462CC24dFfDe246B510460C55FB58669137'
+let bal1 = await client.getBalance(addrFrom)
+info('> balance for [%s] is %s Ether', addrFrom, bal1)
+let bal2 = await client.getBalance(addrTo)
+info('> balance for [%s] is %s Ether', addrT o, bal2)
+let receipt = await client.sendEthereum(addrFrom, '0xb3f96bf5197d7a3e0ee5bf94b66f36cd2ea1b9989de234116ee2102f99dce81d', addrTo, '0.0123' )
+info('receipt: %O', receipt)
+bal1 = await client.getBalance(addrFrom)
+info('> balance for [%s] is %s Ether', addrFrom, bal1)
+bal2 = await client.getBalance(addrTo)
+info('> balance for [%s] is %s Ether', addrTo, bal2)
+
+============= XRP ==============
+let from = {
+  public: 'rLq2NPpTPw24b1TxSBqgJwBbj1DDr5zBbR',
+  secret: 'ss9Yrjr3Ezq6EJuPuoycGMRMUXkQm',
+}
+let to = {
+  public: 'rpaYDdaPDY3mPFaHfDsoFqGgfopot7XLmq',
+  secret: 'sarEVtDtfx2dW6rvk5iByMQ7GAQLQ',
+}
+
+let result = await client.sendXrp(from.public, from.secret, to.public, '123')
+
+let balanceFrom = await client.getBalances(from.public)
+log(balanceFrom)
+
+let balanceTo = await client.getBalances(to.public)
+log(balanceTo)
+
+============= NEO ==============
+log(client.config); process.exit()
+let rawTx = await client.getRawTx('0x850bc98f203adcfa967f57daed8499386d7e5f23274d9d8412fe58b3d1f64863')
+log(rawTx)
+
+CCVault:pollNeo { txid: '0x850bc98f203adcfa967f57daed8499386d7e5f23274d9d8412fe58b3d1f64863',
+CCVault:pollNeo   size: 262,
+CCVault:pollNeo   type: 'ContractTransaction',
+CCVault:pollNeo   version: 0,
+CCVault:pollNeo   attributes: [],
+CCVault:pollNeo   vin:
+CCVault:pollNeo    [ { txid: '0x07d33ec4882dbee3159d97c19654834bad4b505700c1e4e1c7cd28297c9a4aeb',
+CCVault:pollNeo        vout: 1 } ],
+CCVault:pollNeo   vout:
+CCVault:pollNeo    [ { n: 0,
+CCVault:pollNeo        asset: '0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b',
+CCVault:pollNeo        value: '12',
+CCVault:pollNeo        address: 'AXNm1dDxYLK4sJU64erXfMkzbDFY2APHGL' },
+CCVault:pollNeo      { n: 1,
+CCVault:pollNeo        asset: '0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b',
+CCVault:pollNeo        value: '33',
+CCVault:pollNeo        address: 'AHkeCdfk6ATs2ru4gKFZJtmoxN587dRHk9' } ],
+CCVault:pollNeo   sys_fee: '0',
+CCVault:pollNeo   net_fee: '0',
+CCVault:pollNeo   scripts:
+CCVault:pollNeo    [ { invocation: '40199f36b2c568ec80eeb78cd9716671ca6fe8fdfe72cfcb18b99765c0b85e735e0d6678bf0f5530e60c809bd883eaf4dd912be1349233dc01f467016adcb661bd',
+CCVault:pollNeo        verification: '210273a38c7d29add79ecb825cde31549df98562b72bee44187d93845d4e4e25dd56ac' } ],
+CCVault:pollNeo   blockhash: '0x57dd3bc7880c641a693959ff8c4a9ba3752007a0480eb92cf28dcf20259042d1',
+CCVault:pollNeo   confirmations: 1,
+CCVault:pollNeo   blocktime: 1527083130 } +0ms
+
+
+let bal = await client.getBalance('5bb169f915c916a5e30a3c13a5e0cd228ea26826')
+log('bal: ', bal)
+
+let tx = await client.transfer(
+  'c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b', // from
+  'AXNm1dDxYLK4sJU64erXfMkzbDFY2APHGL',                               // to
+  '12'                                                                // amount (must be integer)
+)
+log('tx: ', tx)
+
+let block = await client.getBlock(10000)
+log('block: ', block)
+
+await client.generateAddress();
+
+log((await client.getPeers()).connected.length); process.exit()
+
+let blockCount = await client.getBlockCount()
+log('block count: ', blockCount)
+
+log(await client.getBlock(100000)); process.exit()
+
+log(await client.getPeers()); process.exit()
+
+
+  CCVault:pollNeo { hash: '0xd60d44b5bcbb84d732fcfc31397b81c4e21c7300b9627f890b0f75c863f0c122',
+CCVault:pollNeo   size: 686,
+CCVault:pollNeo   version: 0,
+CCVault:pollNeo   previousblockhash: '0xdea902d1ddb8bbd3000d1cbc96a5a69b2170a5f993cce23eb5bb955920f43454',
+CCVault:pollNeo   merkleroot: '0x40c2a24c32271210b1aa1e89c938494312d4b1dd0315ee8dad2a52b4e66d8042',
+CCVault:pollNeo   time: 1496454840,
+CCVault:pollNeo   index: 100000,
+CCVault:pollNeo   nonce: '40fcadce5e6f395a',
+CCVault:pollNeo   nextconsensus: 'AdyQbbn6ENjqWDa5JNYMwN3ikNcA4JeZdk',
+CCVault:pollNeo   script:
+CCVault:pollNeo    { invocation: '400190144d56bf951badc561395712a86e305b373592ff7ee559d6db0934adb6e116247a8ccc5d42858e9201beedbe904adabe7fd250bc9d1814e8d3ed1b48293d408b78d73679bc45c085ec9c0423ba79889710101918170cd48ebea16e7befd555aa23ee0c256fcd3228f614ba5b607e077dffaf5614e9f7ce78a3c5d60a92baba40170495d99bc2665277d5512eddde13cea37bf74b5c265a3e741783c0837e7f5909a6383780cb5ff03af04e4085ede121a7f94d1c0ddc371cae5e8b968f18f8d440d36e5b7dcfe49894f12cf50476098fb5423ffd36154cee652cdf1cee50fda9240ca6a6cf3cf824457afa45f07661a8c35b6bc0e7f334a903c99b5683b5bf53ce40cc0ad387dedff608e4c032b598e0a54668d9ec2c46e207ea294c76844a3ff951dca324148eca3dc6938402fb2fe5006fbc551f4f1a09d6366c126f787a06c063',
+CCVault:pollNeo      verification: '55210209e7fd41dfb5c2f8dc72eb30358ac100ea8c72da18847befe06eade68cebfcb9210327da12b5c40200e9f65569476bbff2218da4f32548ff43b6387ec1416a231ee821034ff5ceeac41acf22cd5ed2da17a6df4dd8358fcb2bfb1a43208ad0feaab2746b21026ce35b29147ad09e4afe4ec4a7319095f08198fa8babbe3c56e970b143528d2221038dddc06ce687677a53d54f096d2591ba2302068cf123c1f2d75c2dddc542557921039dafd8571a641058ccc832c5e2111ea39b09c0bde36050914384f7a48bce9bf92102d02b1873a0863cd042cc717da31cea0d7cf9db32b74d4c72c01b0011503e2e2257ae' },
+CCVault:pollNeo   tx:
+CCVault:pollNeo    [ { txid: '0x40c2a24c32271210b1aa1e89c938494312d4b1dd0315ee8dad2a52b4e66d8042',
+CCVault:pollNeo        size: 10,
+CCVault:pollNeo        type: 'MinerTransaction',
+CCVault:pollNeo        version: 0,
+CCVault:pollNeo        attributes: [],
+CCVault:pollNeo        vin: [],
+CCVault:pollNeo        vout: [],
+CCVault:pollNeo        sys_fee: '0',
+CCVault:pollNeo        net_fee: '0',
+CCVault:pollNeo        scripts: [],
+CCVault:pollNeo        nonce: 1584347482 } ],
+CCVault:pollNeo   confirmations: 1389320,
+CCVault:pollNeo   nextblockhash: '0xc8880a1a91915b3d7d48265d1bafd8fe120e1571c02924ee4ca005d03e348ecb' } +0ms
+
+============= XLM ==============
+
+// https://horizon-testnet.stellar.org/transactions/a83badc5e5d28eb392abcc85a60833fafcb00f982f0acce2f6f53c483b0db306/operations 
+
+let b1 = await client.getBalance('GCMMF6LFXCQMVNQQMK3MCRVV4SY76EBMCC7JVDQXMUXGWTM3C3P5XLGX')
+let b2 = await client.getBalance('GBKVET3BXEBMK5XX6ME4C5I7L44AJVCIJ6FVGA3HIEVME6W34FCMM5AZ')
+log('before: ', b1, b2)
+
+let result = await client.transfer('GCMMF6LFXCQMVNQQMK3MCRVV4SY76EBMCC7JVDQXMUXGWTM3C3P5XLGX', 'SCDYDGTXV54NJ5JNHD2KXO4MQR3FWCB2MOEFZXBQBEZZ2TLB7PQDBTEO', 'GBKVET3BXEBMK5XX6ME4C5I7L44AJVCIJ6FVGA3HIEVME6W34FCMM5AZ', '123')
+log(result)
+
+b1 = await client.getBalance('GCMMF6LFXCQMVNQQMK3MCRVV4SY76EBMCC7JVDQXMUXGWTM3C3P5XLGX')
+b2 = await client.getBalance('GBKVET3BXEBMK5XX6ME4C5I7L44AJVCIJ6FVGA3HIEVME6W34FCMM5AZ')
+log('after: ', b1, b2)
+
+let result = await client.loadTestAccount('GCMMF6LFXCQMVNQQMK3MCRVV4SY76EBMCC7JVDQXMUXGWTM3C3P5XLGX')
+log(result.balances.find(el => el.asset_type === 'native').balance)
+let result = await client.generateAddress()
+log(result)
+
+let result = await server.transactions().forLedger(9132282).limit(2).call()
+let result = await server.ledgers().limit(1).order("desc").call()
+log(result)
+

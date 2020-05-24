@@ -1,0 +1,26 @@
+[Unit]
+Description=cc-vault-messageBus
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/cc-vault
+ExecStart=/home/ec2-user/.nvm/versions/node/v9.11.1/bin/node index
+Restart=on-failure
+Environment=NODE_ENV=production
+Environment=PROCESS_NAME=messageBus
+Environment=DEBUG=CCVault*
+Environment=AWS_ACCESS_KEY_ID=
+Environment=AWS_REGION=eu-west-1
+Environment=AWS_SECRET_ACCESS_KEY=
+Environment=MYSQL_DB=
+Environment=MYSQL_HOST=
+Environment=MYSQL_PASS=
+Environment=MYSQL_PORT=3306
+Environment=MYSQL_USER=
+Environment=MESSAGE_BUS_IN_URL=
+Environment=LOGGER_NAME=cc-vault-messageBus-staging
+
+[Install]
+WantedBy=multi-user.target

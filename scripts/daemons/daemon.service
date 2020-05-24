@@ -1,0 +1,16 @@
+# Goes in /etc/systemd/system/daemon-name.service
+# Daemon RPC API ref: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list
+
+[Unit]
+Description=daemon-name
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+#ExecStart=/usr/bin/bitcoind
+ExecStart=/usr/bin/daemond
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

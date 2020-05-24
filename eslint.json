@@ -1,0 +1,100 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": "eslint:recommended",
+  "plugins": [
+    "import"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "describe": false,
+    "it": false
+  },
+  "rules": {
+    "arrow-body-style": 0,
+    "comma-dangle": [
+      2,
+      "always-multiline"
+    ],
+    "consistent-return": 0,
+    "curly": [
+      2,
+      "all"
+    ],
+    "func-names": 0,
+    "global-require": 0,
+    "keyword-spacing": 0,
+    "max-len": 0,
+    "new-cap": 0,
+    "no-case-declarations": 0,
+    "no-console": 0,
+    "no-inner-declarations": 0,
+    "no-return-assign": 2,
+    "no-trailing-spaces": 2,
+    "no-unused-expressions": 0,
+    "no-unused-vars": 2,
+    "no-use-before-define": 0,
+    "no-var": 2,
+    "quote-props": [
+      2,
+      "consistent-as-needed"
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "react/jsx-closing-bracket-location": 0,
+    "react/jsx-no-bind": 0,
+    "react/jsx-space-before-closing": 0,
+    "react/prefer-stateless-function": 0,
+    "react/prop-types": 0,
+    "semi": [
+      "error",
+      "never"
+    ],
+    "space-before-function-paren": [
+      2,
+      "never"
+    ],
+    "spaced-comment": 0,
+    "vars-on-top": 0,
+    "import/order": 2,
+    "object-curly-spacing": [
+      2,
+      "always"
+    ],
+    "arrow-spacing": [
+      2,
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "arrow-parens": [
+      2,
+      "as-needed"
+    ],
+    "no-useless-rename": 2,
+    "no-confusing-arrow": 2,
+    "rest-spread-spacing": 2,
+    "indent": [
+      2,
+      2
+    ],
+    "eol-last": 2
+  }
+}

@@ -1,0 +1,938 @@
+FORMAT: 1A
+HOST: http://localhost
+
+## Wallets [/wallets]
+
+Manage user wallets.
+
+
+### Create wallet [POST /wallets/create]
+
+Creates a new wallet public address each time.
+Vault will normally limit public key generation per amount of time (i.e. max 3 addresses per month).
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    "walletUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                    "userUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                    "currency": "BTC",
+                    "availableBalance": 500000000,
+                    "lockedBalance": 10000000,
+                    "addresses": [
+                        "3MGAP2FWrDrxRxZ5zSYQjsZLmtotrcn2sd",
+                        "1J37CY8hcdUXQ1KfBhMCsUVafa8XjDsdCn",
+                    ],
+                    "createdAt": 1518179700531,
+                    "updatedAt": 1518179700531,
+                }
+            }
+        }
+
+
+### Create wallet with an initial balance [POST /wallets/createWithBalance]
+
+Creates a new wallet with an initial balance, without generating an address.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "gems" (required, string) - Lower case currency code
+    + availableBalance: 1000000 (optional, int)
+    + lockedBalance: 1000000 (optional, int)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    "walletUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                    "userUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                    "currency": "gems",
+                    "availableBalance": 100000000,
+                    "lockedBalance": 0,
+                    "createdAt": 1518179700531,
+                    "updatedAt": 1518179700531,
+                }
+            }
+        }
+
+
+### Get user wallet info [POST /wallets/getWallet]
+
+Retrieve wallet info by user and currency.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Get all user wallets [POST /wallets/listWallets]
+
+Retrieve all user wallets.
+
++ Parameters
+
+    + userUid: "ab60fbde-4a18-4292-9636-4b0434d3fab5" (required, string)
+    + currency: "btc" | ["btc", "ltc"] (optional, string)
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+    + sortBy: "currency" (optional, string)
+    + sortDir: "desc" | "asc" (optional, string)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallets": [
+                    ...
+                ],
+                "total": 3
+            }
+        }
+
+
+### List wallet clients (crypto daemons) status info [POST /wallets/listClients]
+
++ Parameters
+
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "clients": [
+                    {
+                        "currency": "btc",
+                        "blockHeight": 1297633,
+                        "clientStatus": "normal|delayed|blocked",
+                        "connections": 8,
+                        "lastBlockTime": 1526326182000,
+                        "lastChecked": 1526326851831
+                    },
+                ],
+                "total": 3
+            }
+        }
+
+
+### Lock wallet balance [POST /wallets/lockBalance]
+
+Move balance from availableBalance to lockedBalance for user wallets.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+    + amount: 200000000 (required, number)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Unlock wallet balance [POST /wallets/unlockBalance]
+
+Move balance from lockedBalance to availableBalance for user wallets.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+    + amount: 200000000 (required, number)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Change balance for multiple wallets [POST /wallets/changeBulkBalance]
+
+Changes balance between multiple wallets, all in one atomic transaction.
+It will create a new wallet for `userUid` if it doesn't exist yet.
+
++ Parameters
+
+    + transfers: [
+        {
+            + userUid: "1e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+            + currency: "gems" (required, string) - Lower case currency code
+            + balanceType: "available" | "locked" (required)
+            + amount: 100000000 (required, int) - Amount to be changed.
+        }
+    ]
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallets": [
+                    {
+                        "walletUid": "1e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "userUid": "1e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "currency": "gems",
+                        "availableBalance": 100000000,
+                        "lockedBalance": 0,
+                        "createdAt": 1518179700531,
+                        "updatedAt": 1518179700531,
+                    },
+                    {
+                        "walletUid": "5e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "userUid": "5e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "currency": "gems",
+                        "availableBalance": 100000000,
+                        "lockedBalance": 0,
+                        "createdAt": 1518179700531,
+                        "updatedAt": 1518179700531,
+                    },
+                ]
+            }
+        }
+
+
+### List user deposits [POST /wallets/listDeposits]
+
+Get a list of the block-chain real-time deposits for a public key.
+`txHash` is `null` by default for withdrawals and only gets populated with the block-chain transaction id once the payment was confirmed and sent on-chain.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+    + status: "pending" (optional, string) - Either `pending` or `confirmed`.
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "deposits": [
+                    {
+                        "metaUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "walletUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "userUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "currency": "btc",
+                        "amount": 500000000,
+                        "address": "3MGAP2FWrDrxRxZ5zSYQjsZLmtotrcn2sd",
+                        "txHash": "357c66a851f4737d8e57426f590d6ad7790aa3fdd1a283e3e29ff33b2d4778a4",
+                        "amountWasLoaded": 1|0,
+                        "confirmations": 2,
+                        "status": "pending"|"confirmed",
+                    }
+                ],
+                "total": 1
+            }
+        }
+
+
+### Submit balance withdrawal [POST /wallets/addPayment]
+
+Request a new payment withdrawal.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+    + address: "1QAYovz[...]" (required, string) - Destination address
+    + amount: 200000000 (required, number)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payment": {
+                    "paymentUid": "51a0437d-5dac-453e-b127-cfacc91efc86",
+                    "userUid": "439c9912-47a7-11e8-842f-0ed5f89f718b",
+                    "currency": "btc",
+                    "address": "2N8hwP1WmJrFF5QWABn38y63uYLhnJYJYTF",
+                    "amount": 10000,
+                    "fee": 10,
+                    "finalAmount": 990,
+                    "txHash": "671f2cb9551edf5159f91d6a561ebb82c9dcc9215b370461a422e03832292987",
+                    "status": "paid",
+                    "createdAt": 1525186860185,
+                    "updatedAt": 1525187427772
+                },
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Cancels payments and unlocks balance [POST /wallets/cancelPayment]
+
+Cancel pending payments.
+
++ Parameters
+
+    + paymentUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payment": {
+                    "paymentUid": "51a0437d-5dac-453e-b127-cfacc91efc86",
+                    "userUid": "439c9912-47a7-11e8-842f-0ed5f89f718b",
+                    "currency": "btc",
+                    "address": "2N8hwP1WmJrFF5QWABn38y63uYLhnJYJYTF",
+                    "amount": 10000,
+                    "fee": 10,
+                    "finalAmount": 990,
+                    "txHash": "671f2cb9551edf5159f91d6a561ebb82c9dcc9215b370461a422e03832292987",
+                    "status": "paid",
+                    "createdAt": 1525186860185,
+                    "updatedAt": 1525187427772
+                },
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### List user payments [POST /wallets/listPayments]
+
+Get a list of the user submitted payments.
+`txHash` is `null` by default until the payment is processed.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (optional, string) - Lower case currency code
+    + status: "pending" (optional, string) - Either `pending` or `confirmed`.
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payments": [
+                    { ... }
+                ],
+                "total": 1
+            }
+        }
+
+
+### Get a list of wallets info [POST /wallets/getHealth]
+
+List daemon health/status for each wallet.
+
++ Parameters
+
+    + currency: "btc" (optional, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "daemons": [
+                    {
+                        "walletUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "currency": "btc",
+                        "blockHeight": 508373,
+                        "connections": 8,
+                        "lastUpdated": 1518179700531,
+                        "lastChecked": 1518179700531,
+                        "notice": "Delisted - Broken blockchain/wallet.",
+                        "status": "normal"|"blocked"|"inactive"|"delayed",
+                    }
+                ]
+            }
+        }
+
+
+### Get user wallet info [POST /admin/wallets/getWallet]
+
+Retrieve wallet info by user and currency.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Get all user wallets [POST /admin/wallets/listWallets]
+
+Retrieve all user wallets.
+
++ Parameters
+
+    + userUid: "ab60fbde-4a18-4292-9636-4b0434d3fab5" (optional, string)
+    + currency: "btc" | ["btc", "ltc"] (optional, string)
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+    + sortBy: "currency" (optional, string)
+    + sortDir: "desc" | "asc" (optional, string)
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "wallets": [
+                    ...
+                ],
+                "total": 3
+            }
+        }
+
+
+### Cancels payments and unlocks balance [POST /admin/wallets/cancelPayment]
+
+Cancel pending payments.
+
++ Parameters
+
+    + paymentUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payment": {
+                    "paymentUid": "51a0437d-5dac-453e-b127-cfacc91efc86",
+                    "userUid": "439c9912-47a7-11e8-842f-0ed5f89f718b",
+                    "currency": "btc",
+                    "address": "2N8hwP1WmJrFF5QWABn38y63uYLhnJYJYTF",
+                    "amount": 10000,
+                    "fee": 10,
+                    "finalAmount": 990,
+                    "txHash": "671f2cb9551edf5159f91d6a561ebb82c9dcc9215b370461a422e03832292987",
+                    "status": "paid",
+                    "createdAt": 1525186860185,
+                    "updatedAt": 1525187427772
+                },
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### Process user payment and send coins on chain [POST /admin/wallets/pay]
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + paymentUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (required, string)
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payment": {
+                    ...
+                },
+                "wallet": {
+                    ...
+                }
+            }
+        }
+
+
+### List user payments [POST /admin/wallets/listPayments]
+
+Get a list of the user submitted payments.
+`txHash` is `null` by default until the payment is processed.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (optional, string)
+    + currency: "btc" (optional, string) - Lower case currency code
+    + status: "pending" (optional, string) - Either `pending` or `confirmed`.
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "payments": [
+                    { ... }
+                ],
+                "total": 1
+            }
+        }
+
+
+### List user deposits [POST /admin/wallets/listDeposits]
+
+Get a list of the block-chain real-time deposits for a public key.
+`txHash` is `null` by default for withdrawals and only gets populated with the block-chain transaction id once the payment was confirmed and sent on-chain.
+
++ Parameters
+
+    + userUid: "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8" (optional, string)
+    + currency: "btc" (optional, string) - Lower case currency code
+    + status: "pending" (optional, string) - Either `pending` or `confirmed`.
+    + page: 1 (optional, integer) - Default page is 1
+    + limit: 25 (optional, integer) - Returns 25 results by default
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {
+                "deposits": [
+                    {
+                        "metaUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "walletUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "userUid": "8e741a0b-c6bf-4e8a-a7a2-1b2c7c688af8",
+                        "currency": "btc",
+                        "amount": 500000000,
+                        "address": "3MGAP2FWrDrxRxZ5zSYQjsZLmtotrcn2sd",
+                        "txHash": "357c66a851f4737d8e57426f590d6ad7790aa3fdd1a283e3e29ff33b2d4778a4",
+                        "amountWasLoaded": 1|0,
+                        "confirmations": 2,
+                        "status": "pending"|"confirmed",
+                    }
+                ],
+                "total": 1
+            }
+        }
+
+
+### Deploy a new smart contract/token [POST /admin/ERC20/deploy]
+
+Deploy smart contracts on the Ethereum network.
+
++ Parameters
+
+    totalSupply: 1000000 (required, number),
+    name: "NEO" (required, string)
+    symbol: "NEO2" (required),
+    address: "0x5ed8cee6b63b1c6afce3ad7c92f4fd7e1b8fad9f",
+    privateKey: "random-private-key",
+
++ Response 200 (application/json)
+
+    + Headers
+
+        X-Auth-Client: test-client
+        X-Auth-Token: json-web-token
+
+    + Body
+
+        {
+            result: {}
+        }
+
+
+### Create market account [POST /market/createAccount]
+
+Generates a new market account address.
+
++ Parameters
+
+    + currency: "btc" (required, string) - Lower case currency code
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+            result: {
+                "marketAccount": {
+                    "currency": "BTC",
+                    "balance": 500000000,
+                    "address": "3MGAP2FWrDrxRxZ5zSYQjsZLmtotrcn2sd",
+                    "createdAt": 1518179700531,
+                    "updatedAt": 1518179700531,
+                }
+            }
+        }
+
+
+### Add currency settings [POST /currencies/addCurrency]
+
+Adds a new currency in the system.
+
++ Parameters
+
+    + currency: "btc" (required, string) - Lower case currency symbol
+    + name: "Bitcoin" (require, string) - Currency name,
+    + type: "cash" | "chain" (options, string),
+    + minWithdrawAmount: 2000000 (optional, integer),
+    + maxWithdrawAmount: 100000000000000 (optional, integer),
+    + withdrawalFee: 600000 (optional, integer),
+    + precision: 8 (optional, integer),
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+            result: {
+                currencySettings: {
+                    "currency": "btc",
+                    "maxWithdrawAmount": 100000000000000,
+                    "minWithdrawAmount": 200000,
+                    "name": "Bitcoin",
+                    "precision": 8,
+                    "status": "live",
+                    "withdrawalFee": 50000
+                }
+            }
+        }
+
+
+### Get currency settings [POST /currencies/getCurrency]
+
+Get currency settings
+
++ Parameters
+
+    + currency: "btc" (required, string) - Lower case currency symbol
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+            result: {
+                currencySettings: {
+                    "currency": "btc",
+                    "maxWithdrawAmount": 100000000000000,
+                    "minWithdrawAmount": 200000,
+                    "name": "Bitcoin",
+                    "precision": 8,
+                    "status": "live",
+                    "withdrawalFee": 50000
+                }
+            }
+        }
+
+
+Request from CCE Core to Vault
+
+Communication happens async through SQS FIFO queues.
+For every order match or order cancel, a new message will be pushed to the queue.
+The Vault will have to parse any `walletUpdates` it finds in the response and update the user wallets.
+
+Message structure for a new OrderMatch (`walletUpdates` is on every `orderMatch`):
+
+    {
+      "orders": [
+        {
+          "orderId": 3,
+          "orderUid": "order-3",
+          "userUid": "user-2",
+          "orderType": "limit",
+          "actionType": "ask",
+          "marketType": "btc",
+          "currency": "ltc",
+          "amount": 100000000,
+          "unitPrice": 200000000,
+          "filledAmount": 100000000,
+          "receivedAmount": 200000000,
+          "fee": 0,
+          "status": "complete",
+          "createdAt": 1518109920800
+        },
+        {
+          "orderId": 1,
+          "orderUid": "order-1",
+          "userUid": "user-1",
+          "orderType": "limit",
+          "actionType": "bid",
+          "marketType": "btc",
+          "currency": "ltc",
+          "amount": 100000000,
+          "unitPrice": 200000000,
+          "filledAmount": 100000000,
+          "receivedAmount": 100000000,
+          "fee": 0,
+          "status": "complete",
+          "createdAt": 1518109920629
+        }
+      ],
+      "orderMatches": [
+        {
+          "orderMatchId": 1,
+          "marketType": "btc",
+          "currency": "ltc",
+          "unitPrice": 200000000,
+          "bidOrderUid": "order-1",
+          "bidUserUid": "user-1",
+          "bidOrderFee": 0,
+          "bidOrderReceivedAmount": 100000000,
+          "askOrderUid": "order-3",
+          "askUserUid": "user-2",
+          "askOrderFee": 0,
+          "askOrderReceivedAmount": 200000000,
+          "createdAt": 1519329393563,
+          "walletUpdates": [
+            {
+              "walletUpdateId": 1,
+              "orderMatchId": 1,
+              "userUid": "user-1",
+              "currency": "btc",
+              "amount": 200000000,
+              "operation": "-",
+              "balanceType": "locked",
+              "createdAt": 1519329393566
+            },
+            {
+              "walletUpdateId": 2,
+              "orderMatchId": 1,
+              "userUid": "user-1",
+              "currency": "ltc",
+              "amount": 100000000,
+              "operation": "+",
+              "balanceType": "available",
+              "createdAt": 1519329393568
+            },
+            {
+              "walletUpdateId": 3,
+              "orderMatchId": 1,
+              "userUid": "user-2",
+              "currency": "ltc",
+              "amount": 100000000,
+              "operation": "-",
+              "balanceType": "locked",
+              "createdAt": 1519329393569
+            },
+            {
+              "walletUpdateId": 4,
+              "orderMatchId": 1,
+              "userUid": "user-2",
+              "currency": "btc",
+              "amount": 200000000,
+              "operation": "+",
+              "balanceType": "available",
+              "createdAt": 1519329393572
+            }
+          ]
+        }
+      ],
+      "messageType": "ADD_ORDER"
+    }
+
+Message structure for cancel order events (`walletUpdates` is on root level with `orderMatchId` eq 0 every time):
+
+    {
+      "orders": [
+        {
+          "orderId": 2,
+          "orderUid": "order-2",
+          "userUid": "user-1",
+          "orderType": "limit",
+          "actionType": "bid",
+          "marketType": "btc",
+          "currency": "ltc",
+          "amount": 100000000,
+          "unitPrice": 200000000,
+          "filledAmount": 0,
+          "receivedAmount": 0,
+          "fee": 0,
+          "status": "canceled",
+          "createdAt": 1518109920629
+        }
+      ],
+      "walletUpdates": [
+        {
+          "walletUpdateId": 5,
+          "orderMatchId": 0,
+          "userUid": "user-1",
+          "currency": "btc",
+          "amount": 200000000,
+          "operation": "-",
+          "balanceType": "locked",
+          "createdAt": 1519329438423
+        },
+        {
+          "walletUpdateId": 6,
+          "orderMatchId": 0,
+          "userUid": "user-1",
+          "currency": "btc",
+          "amount": 200000000,
+          "operation": "+",
+          "balanceType": "available",
+          "createdAt": 1519329438427
+        }
+      ],
+      "messageType": "CANCEL_ORDER"
+    }

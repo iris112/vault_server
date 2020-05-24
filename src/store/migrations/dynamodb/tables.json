@@ -1,0 +1,76 @@
+{
+  "Resources": {
+    "CryptoClientSettingsTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "cc-vault-crypto-client-settings-dev",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "currency",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "currency",
+            "KeyType": "HASH"
+          }
+        ]
+      }
+    },
+    "CryptoClientHealthTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "cc-vault-crypto-client-health-dev",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "currency",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "currency",
+            "KeyType": "HASH"
+          }
+        ]
+      }
+    },
+    "CacheTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "cc-vault-cache-dev",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "cacheKey",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "cacheKey",
+            "KeyType": "HASH"
+          }
+        ]
+      }
+    },
+    "CurrencySettingsTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "cc-currency-settings",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "currency",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "currency",
+            "KeyType": "HASH"
+          }
+        ]
+      }
+    }
+  }
+}

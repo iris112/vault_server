@@ -1,0 +1,79 @@
+const config = {
+  app: {
+    port: 3000,
+  },
+  mysql: {
+    host: 'localhost',
+    port: 3314,
+    database: 'ccvault',
+    user: 'ccvault',
+    password: 'my-secure-pw',
+    debug: false,
+  },
+  aws: {
+    config: {
+      region: 'eu-west-1',
+      accessKeyId: '',
+      secretAccessKey: '',
+    },
+    dynamo: {
+      CryptoClientSettings: {
+        tableName: 'cc-vault-crypto-client-settings-dev',
+      },
+      CryptoClientHealth: {
+        tableName: 'cc-vault-crypto-client-health-dev',
+      },
+      Cache: {
+        tableName: 'cc-vault-cache-dev',
+      },
+      CurrencySettings: {
+        tableName: 'cc-currency-settings',
+      },
+    },
+    sqs: {
+      market: {
+        url: '',
+        messageGroupId: 'accounts',
+      }
+    },
+  },
+  logger: {
+    enabled: false,
+  },
+  bodySigner: {
+    cce: {
+      kmsKeyId: '',
+      skipRequestValidation: true,
+      marketSecret: '',
+    },
+    ccadmin: {
+      kmsKeyId: '',
+      skipRequestValidation: true,
+    },
+    ccmarket: {
+      externalKeyId: '',
+      secret: '',
+      skipRequestValidation: false,
+    },
+  },
+  cceEngine: {
+    messageBusInUrl: '',
+    messageBusPollInterval: 0,
+    messageGroupId: 'message-bus-messages',
+  },
+  sms: {
+    accountSid: '',
+    authToken: '',
+    enabled: false,
+    from: '',
+    to: '',
+  },
+  binance: {
+    enabled: false,
+    endpoint: 'https://api.binance.com',
+    apiKey: '',
+    apiSecret: '',
+  },
+}
+
+export default config

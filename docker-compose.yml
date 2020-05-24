@@ -1,0 +1,104 @@
+app_init:
+  image: "node:9.10.0"
+  links: [
+    cc-vault_db,
+    cc-vault_db_test,
+    cc-vault_btc_test,
+    cc-vault_dynamo,
+    cc-vault_monero_test,
+    #    cc-vault_cardano_test,
+    cc-vault_electroneum_test
+  ]
+  entrypoint: "echo Containers successfully initialized."
+
+cc-vault_db:
+  image: mysql:5.7
+  ports:
+    - 3314:3306
+  restart: always
+  volumes:
+    - ./src/store/migrations/mysql:/docker-entrypoint-initdb.d/
+  environment:
+    - MYSQL_ROOT_PASSWORD=my-secure-pw
+    - MYSQL_DATABASE=ccvault
+    - MYSQL_USER=ccvault
+    - MYSQL_PASSWORD=my-secure-pw
+
+cc-vault_db_test:
+  image: mysql:5.7
+  ports:
+    - 3315:3306
+  restart: always
+  volumes:
+    - ./src/store/migrations/mysql:/docker-entrypoint-initdb.d/
+  environment:
+    - MYSQL_ROOT_PASSWORD=my-secure-pw
+    - MYSQL_DATABASE=ccvault_test
+    - MYSQL_USER=ccvault
+    - MYSQL_PASSWORD=my-secure-pw
+
+cc-vault_dynamo:
+  image: tray/dynamodb-local
+  ports:
+    - 7778:7777
+  command: -port 7777 -sharedDb -inMemory
+  volumes:
+    - ./src/store/migrations/dynamodb:/init
+
+# docker run -p=18443:18443 -p=18444:18444 --rm --name btcserver -it ruimarinho/bitcoin-core -printtoconsole -regtest=1 -rpcallowip="0.0.0.0/0" -rpcuser=test -rpcpassword=test -rpcbind=0.0.0.0 -mine=1
+cc-vault_btc_test:
+  image: ruimarinho/bitcoin-core
+  ports:
+    - 18443:18443
+    - 18444:18444
+  command:
+    -printtoconsole
+    -regtest=1
+    -rpcallowip="0.0.0.0/0"
+    -rpcuser=test
+    -rpcpassword=test
+    -rpcbind=0.0.0.0
+
+# wallet cli if required
+# docker run --rm -it -v $(pwd)/tests/data/monero:/root/.bitmonero cornfeedhobo/monero monero-wallet-cli --testnet --daemon-address testnet.xmrchain.com:28081 --trusted-daemon --restore-height 1108771 --use-english-language-names --wallet-file bank --password ''
+
+# wallet with alot of funds from testnet community
+# docker run --rm -it cornfeedhobo/monero monero-wallet-cli --testnet --daemon-address testnet.xmrchain.com:28081 --trusted-daemon --use-english-language-names --restore-deterministic-wallet --electrum-seed 'jobs taken autumn ghetto sword efficient token maximum dozen tunnel befit fizzle dolphin rarest palace ultimate cucumber reinvest afloat pact anecdote hazard jargon liar befit' --restore-height 1058104
+
+# docker run -p 28083:18083 --rm -it -v $(pwd)/tests/data/monero:/root/.bitmonero cornfeedhobo/monero monero-wallet-rpc --rpc-bind-port 18083 --disable-rpc-login --rpc-bind-ip 0.0.0.0 --testnet --daemon-address testnet.xmrchain.com:28081 --untrusted-daemon --confirm-external-bind --wallet-file /root/.bitmonero/bank --password ''
+cc-vault_monero_test:
+  image: cornfeedhobo/monero
+  ports:
+    - 28083:18083
+  restart: always
+  volumes:
+    - ./tests/data/monero:/root/.bitmonero
+  command:
+    monero-wallet-rpc
+    --rpc-bind-port 18083
+    --disable-rpc-login
+    --rpc-bind-ip 0.0.0.0
+    --log-level 4
+    --testnet
+    --daemon-address testnet.xmrchain.com:28081
+    --untrusted-daemon
+    --confirm-external-bind
+    --wallet-file /root/.bitmonero/bank
+    --password ''
+
+# /usr/bin/electroneum-wallet-cli --testnet --wallet-file /data/wallet-1/wallet.bin --password "" --daemon-address 127.0.0.1:28081
+cc-vault_electroneum_test:
+  build: ./tests/data/electroneum
+  ports:
+    - 38081:28081
+    - 38082:28082
+  restart: always
+
+# mallet kevm -d tests/data/cardano/
+#cc-vault_cardano_test:
+#  image: 273121477770.dkr.ecr.eu-west-1.amazonaws.com/testnet-blockchains:cardano-sl-2.0.0-testnet
+#  restart: always
+#  volumes:
+#    - ./tests/data/cardano:/wallet
+#  ports:
+#    - 8090:8090

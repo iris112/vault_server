@@ -1,0 +1,302 @@
+const config = {
+  app: {
+    port: 3000,
+  },
+  mysql: {
+    host: 'localhost',
+    port: 3315,
+    database: 'ccvault_test',
+    user: 'ccvault',
+    password: 'my-secure-pw',
+    debug: false,
+  },
+  aws: {
+    config: {
+      region: 'eu-west-1',
+      accessKeyId: '',
+      secretAccessKey: '',
+    },
+    dynamo: {
+      config: {
+        accessKeyId: 'accessKeyId',
+        secretAccessKey: 'secretAccessKey',
+        endpoint: 'http://localhost:7778',
+        region: 'eu-west-1',
+      },
+      CryptoClientSettings: {
+        tableName: 'cc-vault-crypto-client-settings-dev',
+      },
+      CryptoClientHealth: {
+        tableName: 'cc-vault-crypto-client-health-dev',
+      },
+      Cache: {
+        tableName: 'cc-vault-cache-dev',
+      },
+      CurrencySettings: {
+        tableName: 'cc-currency-settings',
+      },
+    },
+    sqs: {
+      market: {
+        url: 'https://sqs.eu-west-1.amazonaws.com/273121477770/market-deposits-dev.fifo',
+        messageGroupId: 'accounts',
+      }
+    },
+  },
+  logger: {
+    enabled: false,
+  },
+  bodySigner: {
+    cce: {
+      kmsKeyId: 'da8947e1-d265-489c-9fdf-f104f62bf5ff',
+      skipRequestValidation: false,
+      marketSecret: '',
+    },
+    ccAdmin: {
+      kmsKeyId: 'da8947e1-d265-489c-9fdf-f104f62bf5ff',
+      skipRequestValidation: false,
+    },
+    extExchange: {
+      externalKeyId: 'ea8947e1-d265-489c-9fdf-f104f62bf5ee',
+      secret: 'PPugqZ3m6ELLQ7xyyw7XtGevGtArefG2svCWaS4JwSDBYPNgPRTemuntw8rFEFe4KmXNGT2JWQfznuEUUSqLax3ZdWsWcvsUDzcBh89MTbdPFCBKshbUnbaP9tj4xHNc',
+    },
+  },
+  ganache: {
+    default_balance_ether: '1000000',
+    hostname: '0.0.0.0',
+    port: 38545,
+    gas_limit: 0x6691b7,
+    mnemonic: 'roof city outdoor clinic butter like evolve ensure huge viable cereal tongue',
+  },
+  cryptoClientSettings: [
+    {
+      currency: 'eth',
+      name: 'Ethereum',
+      liquidityProvider: "binance",
+      client: {
+        host: 'localhost',
+        network: 'Ganache',
+        port: 38545,
+        protocol: 'http://'
+      },
+      gasLimit: 70000,
+      minConfirmations: 1,
+      bank: {
+        publicKey: '0x07a540003afa64d2bf2d33714354756a67a7f641',
+      },
+      wallet: {
+        passPhrase: 'my-secure-passphrase',
+      },
+      contracts: {
+        author: '0x07a540003afa64d2bf2d33714354756a67a7f641',
+        privateKey: '0xaf39cb084eb3d3dac4229bbbe7e7e61dc9f1b709c371e877e9fff1716d852fad'
+      }
+    },
+    {
+      client: {
+        host: 'localhost',
+        port: 18443,
+        network: 'regtest',
+        username: 'test',
+        password: 'test',
+        ssl: false,
+      },
+      currency: "btc",
+      minConfirmations: 1,
+      name: "Bitcoin",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      wallet: {
+      }
+    },
+    {
+      client: {
+        host: 'horizon-testnet.stellar.org',
+        network: 'Testnet',
+        protocol: 'https://'
+      },
+      currency: "xlm",
+      minConfirmations: 1,
+      name: "Stellar",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        publicKey: 'GANBAGR5Q47PCMEZX2YL3RMMRDVSP5VBGWP62YT3CSYLNABWLWCXC4OL',
+        privateKey: 'SC22EEJFEAGJB2Q5YHLL6XS3ZA67EJX4DYAQNLEMSYCYMB5EG3LXKOZR',
+      }
+    },
+    {
+      client: {
+        host: 'jungle2.cryptolions.io',
+        port: '80',
+        protocol: 'http://'
+      },
+      currency: "eos",
+      minConfirmations: 1,
+      name: "Eos",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        accountName: 'devchaincrea',
+        publicKey: 'EOS4yf1hnzXgJG2QBTZCeAxPEdFGYcYhB1ZZ7LhehDPwDZZBY46rg',
+        privateKey: '5KAmG1v67GH53FKeoeNnu2dDGrLyvzXRZQaB8nUZ5vKNvgjhs9z',
+      },
+      wallet: {
+        accountName: 'vaultstage12',
+        publicKey: 'EOS4vLbpSD7prt5XCwWHMcCjmNzQwZ64Y1USbKVaiEaL8o9hkcxu9',
+        privateKey: '5Jna2nwN7XmWdFihy26TW7fgZgERWf8zL2t1twiWcj8s7APRmGx',
+        activeKey: 'EOS6m76qt1cmxctGdA4K642fotHZGdZYwwiZD6YXMFLn5vVJpwN1i',
+        activePrivateKey: '5JhHvEvXzpAXFPGBaAvX9mwBC7F4pxeHJSZtXURrSshNGFpKZ3i',
+      },
+    },
+    {
+      client: {
+        daemon: {
+          host: 'testnet.xmrchain.com',
+          port: '28081',
+          protocol: 'http'
+        },
+        wallet: {
+          host: '127.0.0.1',
+          port: '28083',
+          protocol: 'http'
+        }
+      },
+      currency: "xmr",
+      minConfirmations: 1,
+      name: "Xmr",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        publicKey: '9vM1iL45bgD6yRvF7XPjQxTzB3VAQE9GBa979fJ4EG91U6Yr8yuFRvai23VY5LrhiPMQ7isu8PvkX6gyMAUSewRrDAS4giV',
+        accountIndex: 0,
+        mnemonicSeed: 'gorilla gels winter adhesive shocking oven dunes azure mohawk gesture comb geyser nitrogen village pelican border masterful actress dummy dedicated ankle suture axis buffet dedicated',
+      },
+      wallet: {
+      },
+    },
+    {
+      client: {
+        daemon: {
+          host: '127.0.0.1',
+          port: '38081',
+          protocol: 'http'
+        },
+        wallet: {
+          host: '127.0.0.1',
+          port: '38082',
+          protocol: 'http'
+        }
+      },
+      currency: "etn",
+      minConfirmations: 1,
+      name: "Etn",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        publicKey: 'etnkALH736tXaxLNbDLLWi6xNEzzBJ2He5WSf7He8peuPt4nTyakAFyNuXqrHAGQt1PBSBonCRRj8daUtF7TPXFW42YQkSyzf3',
+        accountIndex: 0,
+      },
+      wallet: {
+      },
+    },
+    {
+      client: {
+        fullNode: 'https://api.shasta.trongrid.io',
+        solidityNode: 'https://api.shasta.trongrid.io',
+        eventServer: 'https://api.shasta.trongrid.io',
+      },
+      currency: "trx",
+      minConfirmations: 1,
+      name: "Tron",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        publicKey: '04AE3158C4EB7F701E51B3A9CE9B13F39BCBF46027FAC7D8B386BA3E705380FBC8C96BD86A2EA75B3C4B4EEBA9C1D7C61BB4A9526E4F7A9A99FF8BB2E9B4F62769',
+        privateKey: 'CFC41B84B225F399E5011F6B6FE546E3DC1C3084D117B076695BDFB722A831AA',
+        addressBase58: 'TLQCKrJktDe7Jy2bLRgnGoWREgLZC37PC8',
+        addressHex: '41726B17B3A6E6B48138022EC7CBB1A53620EF14E2',
+      },
+      wallet: {
+      },
+    },
+    {
+      client: {
+        host: 'net.xdac.co',
+        //port: '80',
+        protocol: 'https://'
+      },
+      currency: "xdac",
+      minConfirmations: 1,
+      name: "Xdac",
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        accountName: 'chaincreatr1',
+        publicKey: 'EOS6r1WYNgaqKx6zvbSbxXabMZkb6fatVBmk1D1JZ4NWCaLCRgwcF',
+        privateKey: '5JUTqPikBL6fma57tgjFQcAQmkCs8Z5SuDbWoztrWg7wT5t2kr1',
+      },
+      wallet: {
+        accountName: 'chaincreatr2',
+        publicKey: 'EOS5Pwf5iN7STHVKiWKBLRFBXZMUsEAEmZ42fUGFZ1mr47SRXSuEV',
+        privateKey: '5JQ9Pjgs3LRUTzrN32NCDvWAgHoR3EWAzExmkG1Y5ktt16svAT3',
+      },
+    },
+    {
+      client: {
+        endpoint: 'kevm',
+        walletPath: 'tests/data/cardano'
+      },
+      currency: 'ada',
+      minConfirmations: 1,
+      name: 'Cardano',
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        publicKey: '0x47964e8f6aa31fb563f161c67084cda0071fc2df',
+        privateKey: 'e4a110f8bd350d80973557517ab0a42861ce0f8dc8902ac5cd6f6f58a7ed61d1',
+        passPhrase: 'treui6ygnr4edf3gin6yurtcewmgo8yutvr4eowlo8y6',
+        gasPrice: 5000000000,
+        gas: 100000,
+      },
+      wallet: {
+      }
+    },
+    {
+      client: {
+        host: '23.228.67.85',
+        port: '7890',
+        protocol: 'http',
+        network: -104 // see node_modules/nem-sdk/build/model/network.js
+      },
+      currency: 'xem',
+      minConfirmations: 1,
+      name: 'Nem',
+      pollDelay: 10,
+      liquidityProvider: "cce",
+      bank: {
+        address: 'TAMMBXCLENI6XVJM74FYK5BF6UZGC6SYGHW7TMHM',
+        publicKey: '1640c5ce60e30fac2b71e07d76d97a98694fbfb73369e80b586d4521c9828202',
+        privateKey: '888079703366fd61019601317ebf0d121c2f2656b5a366440669ffcdcdcd7883',
+        moveToBank: false,
+      },
+      wallet: {
+      }
+    },
+  ],
+  sms: {
+    accountSid: '',
+    authToken: '',
+    enabled: false,
+    from: '',
+    to: '',
+  },
+  binance: {
+    enabled: false,
+    endpoint: 'https://api.binance.com',
+    apiKey: '',
+    apiSecret: '',
+  },
+}
+
+module.exports = config
